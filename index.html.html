@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tabla de Tipos Pokémon</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #f1f1f1;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background-color: rgba(0, 0, 0, 0.7);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            border: 2px solid #4cc9f0;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 3px solid #f72585;
+        }
+        
+        h1 {
+            color: #4cc9f0;
+            font-size: 2.8rem;
+            text-shadow: 0 0 10px rgba(76, 201, 240, 0.5);
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            color: #f72585;
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+        }
+        
+        .legend {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-top: 20px;
+            padding: 15px;
+            background-color: rgba(30, 30, 60, 0.8);
+            border-radius: 10px;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin: 5px;
+        }
+        
+        .color-box {
+            width: 25px;
+            height: 25px;
+            border-radius: 5px;
+            margin-right: 10px;
+            border: 1px solid white;
+        }
+        
+        .super-effective { background-color: #4caf50; }
+        .not-effective { background-color: #f44336; }
+        .no-effect { background-color: #616161; }
+        .normal { background-color: #2196f3; }
+        
+        .table-container {
+            overflow-x: auto;
+            margin: 30px 0;
+            border-radius: 15px;
+            border: 2px solid #4361ee;
+            background-color: rgba(10, 15, 40, 0.9);
+            padding: 10px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 1200px;
+        }
+        
+        th {
+            background-color: #3a0ca3;
+            color: white;
+            padding: 15px 10px;
+            text-align: center;
+            font-weight: bold;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            border: 1px solid #4361ee;
+        }
+        
+        td {
+            padding: 12px 8px;
+            text-align: center;
+            border: 1px solid rgba(67, 97, 238, 0.3);
+            font-weight: bold;
+            transition: all 0.2s;
+        }
+        
+        .type-header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 8px 5px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            min-height: 80px;
+            color: white;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.7);
+        }
+        
+        .type-icon {
+            font-size: 1.8rem;
+            margin-bottom: 5px;
+        }
+        
+        .type-name {
+            margin-top: 5px;
+        }
+        
+        .effect-cell {
+            font-size: 1.4rem;
+            cursor: help;
+            border-radius: 5px;
+        }
+        
+        .effect-cell:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+        
+        .super { background-color: rgba(76, 175, 80, 0.9); }
+        .not-very { background-color: rgba(244, 67, 54, 0.9); }
+        .none { background-color: rgba(97, 97, 97, 0.9); }
+        
+        .damage-multiplier {
+            font-size: 0.8rem;
+            margin-top: 3px;
+            font-weight: normal;
+        }
+        
+        .instructions {
+            background-color: rgba(67, 97, 238, 0.2);
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 30px;
+            border-left: 5px solid #f72585;
+        }
+        
+        .instructions h3 {
+            color: #4cc9f0;
+            margin-bottom: 10px;
+        }
+        
+        .instructions p {
+            margin-bottom: 10px;
+            line-height: 1.5;
+        }
+        
+        .instructions ul {
+            padding-left: 20px;
+            margin-bottom: 15px;
+        }
+        
+        .instructions li {
+            margin-bottom: 8px;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #4361ee;
+            color: #a0a0c0;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .subtitle {
+                font-size: 1.1rem;
+            }
+            
+            .type-header {
+                font-size: 0.8rem;
+                padding: 5px 3px;
+                min-height: 70px;
+            }
+            
+            .type-icon {
+                font-size: 1.5rem;
+            }
+        }
+        
+        .type-normal { background-color: #A8A878; }
+        .type-fire { background-color: #F08030; }
+        .type-water { background-color: #6890F0; }
+        .type-grass { background-color: #78C850; }
+        .type-electric { background-color: #F8D030; }
+        .type-ice { background-color: #98D8D8; }
+        .type-fighting { background-color: #C03028; }
+        .type-poison { background-color: #A040A0; }
+        .type-ground { background-color: #E0C068; }
+        .type-flying { background-color: #A890F0; }
+        .type-psychic { background-color: #F85888; }
+        .type-bug { background-color: #A8B820; }
+        .type-rock { background-color: #B8A038; }
+        .type-ghost { background-color: #705898; }
+        .type-dark { background-color: #705848; }
+        .type-dragon { background-color: #7038F8; }
+        .type-steel { background-color: #B8B8D0; }
+        .type-fairy { background-color: #EE99AC; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-table"></i> Tabla de Efectividades Pokémon</h1>
+            <div class="subtitle">Guía visual para combates - Consulta rápida mientras juegas</div>
+            
+            <div class="legend">
+                <div class="legend-item">
+                    <div class="color-box super-effective"></div>
+                    <span>Súper Efectivo (x2 daño)</span>
+                </div>
+                <div class="legend-item">
+                    <div class="color-box normal"></div>
+                    <span>Normal (x1 daño)</span>
+                </div>
+                <div class="legend-item">
+                    <div class="color-box not-effective"></div>
+                    <span>Poco Efectivo (x0.5 daño)</span>
+                </div>
+                <div class="legend-item">
+                    <div class="color-box no-effect"></div>
+                    <span>Sin Efecto (x0 daño)</span>
+                </div>
+            </div>
+        </header>
+        
+        <div class="table-container">
+            <table id="typeChart">
+                <thead>
+                    <tr>
+                        <th>Atacar →<br>Defender ↓</th>
+                        <!-- Attack type headers will be inserted by JavaScript -->
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Table rows will be generated by JavaScript -->
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="instructions">
+            <h3><i class="fas fa-info-circle"></i> Cómo usar esta tabla</h3>
+            <p><strong>Para consultar:</strong></p>
+            <ul>
+                <li><strong>1.</strong> Encuentra el tipo de tu ataque en la fila superior (horizontal).</li>
+                <li><strong>2.</strong> Busca el tipo del Pokémon rival en la columna izquierda (vertical).</li>
+                <li><strong>3.</strong> La celda donde se cruzan indica la efectividad del ataque.</li>
+                <li><strong>4.</strong> Si un Pokémon tiene dos tipos, multiplica los efectos. Ej: Fuego x4 contra Planta/Bicho.</li>
+            </ul>
+            <p><strong>Ejemplos rápidos:</strong></p>
+            <ul>
+                <li><span style="color:#78C850;font-weight:bold;">Planta</span> es fuerte contra <span style="color:#6890F0;font-weight:bold;">Agua</span>, <span style="color:#E0C068;font-weight:bold;">Tierra</span> y <span style="color:#B8A038;font-weight:bold;">Roca</span></li>
+                <li><span style="color:#6890F0;font-weight:bold;">Agua</span> es fuerte contra <span style="color:#F08030;font-weight:bold;">Fuego</span>, <span style="color:#E0C068;font-weight:bold;">Tierra</span> y <span style="color:#B8A038;font-weight:bold;">Roca</span></li>
+                <li><span style="color:#F08030;font-weight:bold;">Fuego</span> es fuerte contra <span style="color:#78C850;font-weight:bold;">Planta</span>, <span style="color:#A8B820;font-weight:bold;">Bicho</span>, <span style="color:#98D8D8;font-weight:bold;">Hielo</span> y <span style="color:#B8B8D0;font-weight:bold;">Acero</span></li>
+                <li><span style="color:#F8D030;font-weight:bold;">Eléctrico</span> es fuerte contra <span style="color:#6890F0;font-weight:bold;">Agua</span> y <span style="color:#A890F0;font-weight:bold;">Volador</span>, pero no afecta a <span style="color:#E0C068;font-weight:bold;">Tierra</span></li>
+            </ul>
+            <p><i class="fas fa-lightbulb"></i> <strong>Tip:</strong> Pasa el cursor sobre las celdas para ver el multiplicador de daño claramente.</p>
+        </div>
+        
+        <footer>
+            <p>Tabla actualizada para la 8ª generación (Espada y Escudo) | Creada para consulta rápida en combates Pokémon</p>
+            <p>Los íconos de tipos son representativos. Los colores siguen la paleta oficial de la franquicia.</p>
+        </footer>
+    </div>
+
+    <script>
+        // Type effectiveness data (2 = super, 1 = normal, 0.5 = not very, 0 = none)
+        const typeChart = {
+            "normal":   [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0.5, 0, 1, 0.5, 1, 1],
+            "fire":     [1, 0.5, 0.5, 2, 1, 2, 1, 1, 1, 1, 1, 2, 0.5, 1, 0.5, 2, 1, 0.5],
+            "water":    [1, 2, 0.5, 0.5, 1, 1, 1, 1, 2, 1, 1, 1, 2, 1, 0.5, 1, 1, 1],
+            "grass":    [1, 0.5, 2, 0.5, 1, 1, 1, 0.5, 2, 0.5, 1, 0.5, 2, 1, 0.5, 1, 1, 1],
+            "electric": [1, 1, 2, 0.5, 0.5, 1, 1, 1, 0, 2, 1, 1, 1, 1, 0.5, 1, 1, 1],
+            "ice":      [1, 0.5, 0.5, 2, 1, 0.5, 1, 1, 2, 2, 1, 1, 1, 1, 2, 0.5, 1, 1],
+            "fighting": [2, 1, 1, 1, 1, 2, 1, 0.5, 1, 0.5, 0.5, 0.5, 2, 0, 1, 2, 2, 0.5],
+            "poison":   [1, 1, 1, 2, 1, 1, 1, 0.5, 0.5, 1, 1, 0.5, 0.5, 0.5, 1, 0, 1, 2],
+            "ground":   [1, 2, 1, 0.5, 2, 1, 1, 2, 1, 0, 1, 0.5, 2, 1, 1, 2, 1, 1],
+            "flying":   [1, 1, 1, 2, 0.5, 1, 2, 1, 1, 1, 1, 2, 0.5, 1, 1, 0.5, 1, 1],
+            "psychic":  [1, 1, 1, 1, 1, 1, 2, 2, 1, 1, 0.5, 1, 1, 1, 1, 0, 0, 1],
+            "bug":      [1, 0.5, 1, 2, 1, 1, 0.5, 0.5, 1, 0.5, 2, 1, 1, 0.5, 1, 0.5, 2, 0.5],
+            "rock":     [1, 2, 1, 1, 1, 2, 0.5, 1, 0.5, 2, 1, 2, 1, 1, 1, 0.5, 1, 1],
+            "ghost":    [0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 2, 1, 0.5, 0.5, 1],
+            "dragon":   [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 0.5, 1, 0],
+            "dark":     [1, 1, 1, 1, 1, 1, 0.5, 1, 1, 1, 2, 1, 1, 2, 1, 0.5, 0.5, 0.5],
+            "steel":    [1, 0.5, 0.5, 1, 1, 2, 1, 1, 1, 1, 1, 1, 2, 1, 1, 0.5, 1, 2],
+            "fairy":    [1, 0.5, 1, 1, 1, 1, 2, 0.5, 1, 1, 1, 1, 1, 1, 2, 0.5, 2, 1]
+        };
+
+        // Type names in Spanish with icons
+        const types = [
+            {id: "normal", name: "Normal", icon: "●", color: "type-normal"},
+            {id: "fire", name: "Fuego", icon: "🔥", color: "type-fire"},
+            {id: "water", name: "Agua", icon: "💧", color: "type-water"},
+            {id: "grass", name: "Planta", icon: "🌿", color: "type-grass"},
+            {id: "electric", name: "Eléctrico", icon: "⚡", color: "type-electric"},
+            {id: "ice", name: "Hielo", icon: "❄️", color: "type-ice"},
+            {id: "fighting", name: "Lucha", icon: "✊", color: "type-fighting"},
+            {id: "poison", name: "Veneno", icon: "☠️", color: "type-poison"},
+            {id: "ground", name: "Tierra", icon: "⛰️", color: "type-ground"},
+            {id: "flying", name: "Volador", icon: "🕊️", color: "type-flying"},
+            {id: "psychic", name: "Psíquico", icon: "🔮", color: "type-psychic"},
+            {id: "bug", name: "Bicho", icon: "🐛", color: "type-bug"},
+            {id: "rock", name: "Roca", icon: "🪨", color: "type-rock"},
+            {id: "ghost", name: "Fantasma", icon: "👻", color: "type-ghost"},
+            {id: "dragon", name: "Dragón", icon: "🐲", color: "type-dragon"},
+            {id: "dark", name: "Siniestro", icon: "🌑", color: "type-dark"},
+            {id: "steel", name: "Acero", icon: "⚙️", color: "type-steel"},
+            {id: "fairy", name: "Hada", icon: "🌸", color: "type-fairy"}
+        ];
+
+        // Function to get effectiveness class and symbol
+        function getEffectiveness(value) {
+            if (value === 2) return {class: "super", symbol: "✅", text: "Súper Efectivo"};
+            if (value === 0.5) return {class: "not-very", symbol: "❌", text: "Poco Efectivo"};
+            if (value === 0) return {class: "none", symbol: "🚫", text: "Sin Efecto"};
+            return {class: "", symbol: "•", text: "Normal"};
+        }
+
+        // Create table headers (attack types)
+        function createTableHeaders() {
+            const headerRow = document.querySelector("#typeChart thead tr");
+            
+            // First header cell
+            headerRow.innerHTML = '<th>Atacar →<br>Defender ↓</th>';
+            
+            // Create headers for each attack type
+            types.forEach(type => {
+                const th = document.createElement("th");
+                th.innerHTML = `
+                    <div class="type-header ${type.color}">
+                        <div class="type-icon">${type.icon}</div>
+                        <div class="type-name">${type.name}</div>
+                    </div>
+                `;
+                headerRow.appendChild(th);
+            });
+        }
+
+        // Create table rows (defending types)
+        function createTableRows() {
+            const tbody = document.querySelector("#typeChart tbody");
+            tbody.innerHTML = "";
+            
+            types.forEach((defType, rowIndex) => {
+                const tr = document.createElement("tr");
+                
+                // First cell: defending type
+                const defCell = document.createElement("td");
+                defCell.innerHTML = `
+                    <div class="type-header ${defType.color}">
+                        <div class="type-icon">${defType.icon}</div>
+                        <div class="type-name">${defType.name}</div>
+                    </div>
+                `;
+                tr.appendChild(defCell);
+                
+                // Effectiveness cells for each attack type
+                types.forEach((atkType, colIndex) => {
+                    const effectiveness = typeChart[atkType.id][rowIndex];
+                    const effectInfo = getEffectiveness(effectiveness);
+                    
+                    const td = document.createElement("td");
+                    td.className = `effect-cell ${effectInfo.class}`;
+                    td.innerHTML = `
+                        <div>${effectInfo.symbol}</div>
+                        <div class="damage-multiplier">×${effectiveness}</div>
+                    `;
+                    td.title = `${atkType.name} contra ${defType.name}: ${effectInfo.text} (×${effectiveness} daño)`;
+                    
+                    tr.appendChild(td);
+                });
+                
+                tbody.appendChild(tr);
+            });
+        }
+
+        // Initialize the table when page loads
+        document.addEventListener("DOMContentLoaded", () => {
+            createTableHeaders();
+            createTableRows();
+            
+            // Add hover effect for better readability
+            const cells = document.querySelectorAll(".effect-cell");
+            cells.forEach(cell => {
+                cell.addEventListener("mouseenter", function() {
+                    const row = this.parentElement;
+                    const colIndex = Array.from(row.children).indexOf(this);
+                    
+                    // Highlight entire row and column
+                    const allRows = document.querySelectorAll("#typeChart tbody tr");
+                    allRows.forEach(r => {
+                        if (r !== row) {
+                            const cellInCol = r.children[colIndex];
+                            cellInCol.style.opacity = "0.7";
+                        }
+                    });
+                    
+                    const rowCells = row.querySelectorAll("td");
+                    rowCells.forEach(c => {
+                        if (c !== this) {
+                            c.style.opacity = "0.7";
+                        }
+                    });
+                    
+                    this.style.opacity = "1";
+                    this.style.zIndex = "5";
+                });
+                
+                cell.addEventListener("mouseleave", function() {
+                    // Reset all cells
+                    const allCells = document.querySelectorAll("#typeChart td");
+                    allCells.forEach(c => {
+                        c.style.opacity = "";
+                        c.style.zIndex = "";
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>
